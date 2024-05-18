@@ -8,6 +8,7 @@ import "./assets/img/4geeks.ico";
 window.onload = () => {
   document.querySelector(".card").classList.add(generateRandomSuit());
   document.querySelector(".card .number").innerText = generateRandomNumber();
+  startTimer(); // Inicia el temporizador al cargar la página
 };
 
 let generateRandomNumber = () => {
@@ -27,9 +28,31 @@ let generateRandomSuit = () => {
 document
   .getElementById("changeCardButton")
   .addEventListener("click", function() {
-    let card = document.querySelector(".card");
-    card.classList.remove("diamond", "spade", "heart", "club"); // Elimina cualquier traje existente
-    let newSuit = generateRandomSuit();
-    card.classList.add(newSuit); // Agrega la nueva clase de traje sin el espacio en blanco
-    card.querySelector(".number").innerText = generateRandomNumber();
+    changeCard();
   });
+
+let changeCard = () => {
+  let card = document.querySelector(".card");
+  card.classList.remove("diamond", "spade", "heart", "club"); // Elimina cualquier traje existente
+  let newSuit = generateRandomSuit();
+  card.classList.add(newSuit); // Agrega la nueva clase de traje sin el espacio en blanco
+  card.querySelector(".number").innerText = generateRandomNumber();
+};
+
+let startTimer = () => {
+  let timeLeft = 10; // segundos
+  document.getElementById("timeLeft").innerText = timeLeft;
+
+  setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) {
+      changeCard();
+      timeLeft = 10;
+    }
+    document.getElementById("timeLeft").innerText = timeLeft;
+  }, 1000); // 1000 milisegundos = 1 segundo
+};
+
+setInterval(() => {
+  changeCard();
+}, 10000);
